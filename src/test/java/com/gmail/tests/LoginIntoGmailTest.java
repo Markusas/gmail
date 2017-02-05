@@ -1,5 +1,6 @@
 package com.gmail.tests;
 
+import com.gmail.webpages.Compose;
 import com.gmail.webpages.HomePage;
 import com.gmail.webpages.Inbox;
 import org.openqa.selenium.WebDriver;
@@ -17,6 +18,7 @@ public class LoginIntoGmailTest {
     WebDriver driver;
     HomePage homePage = new HomePage(driver);
     Inbox inbox;
+    Compose compose;
 
 
     @BeforeTest
@@ -38,7 +40,7 @@ public class LoginIntoGmailTest {
     @Test(priority = 1)
     public void loginIntoGmail() {
         homePage = new HomePage(driver);
-        homePage.signIn("********", "********");
+        homePage.signIn("******", "*****");
 
         inbox = new Inbox(driver);
         inbox.getUserInfo();
@@ -46,5 +48,11 @@ public class LoginIntoGmailTest {
         Assert.assertTrue(userName.contains("Marek Butrimas"));
     }
 
+    @Test(priority = 2)
+    public void checkOrComposeBtnWork() {
+        compose = new Compose(driver);
+        compose.clickCompose();
+        Assert.assertTrue(compose.isComposeWindowOpened());
+    }
 
 }
