@@ -1,8 +1,6 @@
 package com.gmail.tests;
 
-import com.gmail.webpages.Compose;
-import com.gmail.webpages.HomePage;
-import com.gmail.webpages.Inbox;
+import com.gmail.webPages.*;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.testng.Assert;
@@ -19,6 +17,9 @@ public class LoginIntoGmailTest {
     HomePage homePage = new HomePage(driver);
     Inbox inbox;
     Compose compose;
+    NewMessage newMessage;
+    MsgAfterSendinMail msgAfterSendinMail;
+    Wait wait;
 
 
     @BeforeTest
@@ -29,7 +30,7 @@ public class LoginIntoGmailTest {
     }
 
     @Test(priority = 0)
-    public void checkOrGmailLoad() {
+    public void GmailLoadTest() {
         homePage = new HomePage(driver);
         String actualTagLine = homePage.getGmailTagLine();
         Assert.assertTrue(actualTagLine.contains("One Google Account for everything Google"));
@@ -38,9 +39,9 @@ public class LoginIntoGmailTest {
     }
 
     @Test(priority = 1)
-    public void loginIntoGmail() {
+    public void loginIntoGmailTest() {
         homePage = new HomePage(driver);
-        homePage.signIn("******", "*****");
+        homePage.signIn("*****", "*****");
 
         inbox = new Inbox(driver);
         inbox.getUserInfo();
@@ -49,10 +50,23 @@ public class LoginIntoGmailTest {
     }
 
     @Test(priority = 2)
-    public void checkOrComposeBtnWork() {
+    public void ComposeBtnWorkTest() {
         compose = new Compose(driver);
         compose.clickCompose();
         Assert.assertTrue(compose.isComposeWindowOpened());
+        newMessage = new NewMessage(driver);
+        newMessage.senMail("saltinio@gmail.com", "Test", "Test \n Test test test.");
+
     }
+
+    @Test(priority = 3)
+    public void mailSendingTest() throws InterruptedException {
+        msgAfterSendinMail = new MsgAfterSendinMail(driver);
+//        wait = new Wait();
+//        wait.waitForJavascript(driver);
+        Thread.sleep(10000);
+        Assert.assertTrue(msgAfterSendinMail.getMsgHasBeenSend().contains("Your message has been sent."));
+    }
+
 
 }

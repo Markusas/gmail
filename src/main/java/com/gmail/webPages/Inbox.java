@@ -1,4 +1,4 @@
-package com.gmail.webpages;
+package com.gmail.webPages;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -16,10 +16,12 @@ public class Inbox {
     }
 
     public void getUserInfo() {
+
         driver.findElement(accountInfo).click();
     }
 
     public String getUserName() {
+
         return driver.findElement(userName).getText();
     }
 }
